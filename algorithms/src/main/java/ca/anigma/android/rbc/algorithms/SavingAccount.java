@@ -57,6 +57,11 @@ public class SavingAccount {
      * @return  The cost
      */
     public double getDebitCost(int numDebits) {
+
+        if (numDebits <= 0) {
+            return 0;
+        }
+
         switch (mAccountType) {
 
             case DAY_TO_DAY:
@@ -84,6 +89,12 @@ public class SavingAccount {
      * @return  The cost of performing numAtm withdrawals
      */
     public double getAtmCost(int numAtm) throws NotApplicableException {
+
+        // Doesn't throw an exception if they don't use this
+        if (numAtm <= 0) {
+            return 0;
+        }
+
         switch (mAccountType) {
 
             case DAY_TO_DAY:
@@ -107,6 +118,12 @@ public class SavingAccount {
      * @return  the cost of performing 'numTransfers'
      */
     public double getETransferCost(int numTransfers) throws NotApplicableException {
+
+        // Doesn't throw an exception if they don't use this
+        if (numTransfers <= 0) {
+            return 0;
+        }
+
         if (mAccountType == HIGH_INTEREST_US) {
             throw new NotApplicableException();
         }
@@ -114,9 +131,53 @@ public class SavingAccount {
     }
 
 
+    /**
+     * The cost of performing numUSDebits in the US in the month
+     * @param numUSDebits   Number of debits in the US in a month
+     * @return the cost of performing 'numUSDebits' in the US in a month
+     * @throws NotApplicableException
+     */
+    public double getUSDebitCost(int numUSDebits) throws NotApplicableException {
 
-    public double getCrossBorderDebitCost(int numDebits) {
-        return 0;
+        // Doesn't throw an exception if they don't use this
+        if (numUSDebits <= 0) {
+            return 0;
+        }
+
+        switch (mAccountType) {
+            case HIGH_INTEREST:
+                // $1 per debit
+                return numUSDebits;
+            case HIGH_INTEREST_US:
+                // Free US debits
+                return 0;
+            default:
+                throw new NotApplicableException();
+        }
+    }
+
+
+    /**
+     * Get the balance after deducting costs and adding interest rate
+     * @param amount        Amount in the account
+     * @param numDebits     Number of debits in a month
+     * @param numAtm        Number of atm withdrawals in a month
+     * @param numTransfers  Number of email money transfers in a month
+     * @param numUSDebits   Number of debits in the US in a month
+     * @return the balance after deducting costs and adding the interest rate
+     * @throws NotApplicableException
+     */
+    public double getBalance(double amount, int numDebits, int numAtm, int numTransfers, int numUSDebits) throws NotApplicableException {
+        double cost, remainingAmount;
+
+        // Get the cost of using the debit card for the month
+        cost = getDebitCost(numDebits) - getAtmCost(numAtm) - getETransferCost(numTransfers) - getUSDebitCost(numUSDebits);
+
+        // Get the remaining amount after subtracting the cost
+        remainingAmount = amount - cost;
+
+        // Return the left over amount after accumulating interest
+        return remainingAmount * getInterestRate(remainingAmount);
     }
 
 
