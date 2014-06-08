@@ -25,18 +25,18 @@ public class SavingAccount {
         switch (mAccountType) {
 
             case DAY_TO_DAY:
-                if (amount < 3000)          return 1.025;
-                else if (amount < 5000)     return 1.050;
-                else                        return 1.150;
+                if (amount < 3000)          return 0.025;
+                else if (amount < 5000)     return 0.050;
+                else                        return 0.150;
 
             case ENHANCED:
-                if (amount < 5000)          return 1.00;
-                else if (amount < 10000)    return 1.01;
-                else if (amount < 25000)    return 1.05;
-                else if (amount < 60000)    return 1.06;
-                else if (amount < 100000)   return 1.10;
-                else if (amount < 150000)   return 1.25;
-                else                        return 1.35;
+                if (amount < 5000)          return 0.00;
+                else if (amount < 10000)    return 0.01;
+                else if (amount < 25000)    return 0.05;
+                else if (amount < 60000)    return 0.06;
+                else if (amount < 100000)   return 0.10;
+                else if (amount < 150000)   return 0.25;
+                else                        return 0.35;
 
             case HIGH_INTEREST:
                 return 1.05;

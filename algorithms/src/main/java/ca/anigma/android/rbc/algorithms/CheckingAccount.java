@@ -5,11 +5,11 @@ package ca.anigma.android.rbc.algorithms;
  */
 public class CheckingAccount {
 
-    public static final int VIP = 5;
-    public static final int SIG_UNLIMITED = 4;
-    public static final int UNLIMITED = 3;
-    public static final int DAY_TO_DAY = 2;
-    public static final int US = 1;
+    public static final int VIP             = 5;
+    public static final int SIG_UNLIMITED   = 4;
+    public static final int UNLIMITED       = 3;
+    public static final int DAY_TO_DAY      = 2;
+    public static final int US              = 1;
 
     private int mAccountType;
 
