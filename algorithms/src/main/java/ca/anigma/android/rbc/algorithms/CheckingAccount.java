@@ -226,7 +226,7 @@ public class CheckingAccount {
      * @return the balance of the checking account after the month's deductions
      */
     public double getBalance(double amount, int numDebits, int numAtm, int numOD, int numTransfers,
-                             int numCBD, int numCheque, boolean isAdult){
+                             int numCBD, int numCheque, boolean isAdult) {
 
         // Get the cost of using the checking account in the month
         double cost = getMonthlyCost(isAdult) + getDebitCost(numDebits) + getATMCost(numAtm)
@@ -234,6 +234,13 @@ public class CheckingAccount {
 
         // Return the remaining balance after deducting the cost
         return amount - cost;
+    }
+
+
+    public double getCost(int numDebits, int numAtm, int numOD, int numTransfers, int numCBD, int numCheque,
+                          boolean isAdult) {
+        return getMonthlyCost(isAdult) + getDebitCost(numDebits) + getATMCost(numAtm)
+                + getETransfersCost(numTransfers) + getCBDCost(numCBD) + getODCost(numOD) + getChequesCost(numCheque);
     }
 
 }

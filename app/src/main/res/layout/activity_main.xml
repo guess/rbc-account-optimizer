@@ -20,7 +20,16 @@
         <FrameLayout android:id="@+id/time_money_chart"
                 android:layout_width="0dip"
                 android:layout_height="match_parent"
-                android:layout_weight="1" />
+                android:layout_weight="1" >
+
+            <TextView android:id="@+id/net_worth"
+                    android:layout_width="fill_parent"
+                    android:layout_height="wrap_content"
+                    android:layout_gravity="center"
+                    android:gravity="center"
+                    android:textSize="50sp" />
+
+        </FrameLayout>
 
     </LinearLayout>
 
@@ -37,7 +46,7 @@
                 android:gravity="center"
                 android:textSize="30sp"
                 android:text="Chequings"
-                android:background="@drawable/light_blue"
+                android:background="@drawable/dark_blue"
                 android:clickable="true"
                 android:onClick="onTabSelected"/>
 
@@ -48,7 +57,7 @@
                 android:gravity="center"
                 android:textSize="30sp"
                 android:text="Savings"
-                android:background="@drawable/light_green"
+                android:background="@drawable/yellow"
                 android:clickable="true"
                 android:onClick="onTabSelected"/>
 
@@ -59,7 +68,7 @@
                 android:gravity="center"
                 android:textSize="30sp"
                 android:text="Credit Card"
-                android:background="@drawable/light_red"
+                android:background="@drawable/light_blue"
                 android:clickable="true"
                 android:onClick="onTabSelected"/>
 

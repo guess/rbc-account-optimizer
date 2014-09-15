@@ -25,24 +25,24 @@ public class SavingAccount {
         switch (mAccountType) {
 
             case DAY_TO_DAY:
-                if (amount < 3000)          return 0.025;
-                else if (amount < 5000)     return 0.050;
-                else                        return 0.150;
+                if (amount < 3000)          return 0.00025;
+                else if (amount < 5000)     return 0.00050;
+                else                        return 0.00150;
 
             case ENHANCED:
-                if (amount < 5000)          return 0.00;
-                else if (amount < 10000)    return 0.01;
-                else if (amount < 25000)    return 0.05;
-                else if (amount < 60000)    return 0.06;
-                else if (amount < 100000)   return 0.10;
-                else if (amount < 150000)   return 0.25;
-                else                        return 0.35;
+                if (amount < 5000)          return 0.0000;
+                else if (amount < 10000)    return 0.0001;
+                else if (amount < 25000)    return 0.0005;
+                else if (amount < 60000)    return 0.0006;
+                else if (amount < 100000)   return 0.0010;
+                else if (amount < 150000)   return 0.0025;
+                else                        return 0.0035;
 
             case HIGH_INTEREST:
-                return 1.05;
+                return 0.0105;
 
             case HIGH_INTEREST_US:
-                return 1.15;
+                return 0.0115;
 
         }
 
@@ -178,6 +178,33 @@ public class SavingAccount {
 
         // Return the left over amount after accumulating interest
         return remainingAmount * getInterestRate(remainingAmount);
+    }
+
+
+    public double getCost(int numDebits, int numAtm, int numTransfers, int numUSDebits) {
+        double cost = 0;
+
+        cost += getDebitCost(numDebits);
+
+        try {
+            cost += getAtmCost(numAtm);
+        } catch (NotApplicableException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            cost += getETransferCost(numTransfers);
+        } catch (NotApplicableException e) {
+            e.printStackTrace();
+        }
+
+        try {
+            cost += getUSDebitCost(numUSDebits);
+        } catch (NotApplicableException e) {
+            e.printStackTrace();
+        }
+
+        return cost;
     }
 
 

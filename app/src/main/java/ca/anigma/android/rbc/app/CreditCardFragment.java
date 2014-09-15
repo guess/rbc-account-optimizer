@@ -11,9 +11,7 @@ import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListAdapter;
 import android.widget.TextView;
-
-
-import ca.anigma.android.rbc.app.accounts.CheckingAccounts;
+import ca.anigma.android.rbc.app.accounts.CreditCards;
 
 
 public class CreditCardFragment extends Fragment implements AbsListView.OnItemClickListener {
@@ -42,8 +40,8 @@ public class CreditCardFragment extends Fragment implements AbsListView.OnItemCl
     public void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         // TODO: Change Adapter to display your content
-        mAdapter = new ArrayAdapter<CheckingAccounts.DummyItem>(getActivity(),
-                android.R.layout.simple_list_item_1, android.R.id.text1, CheckingAccounts.ITEMS);
+        mAdapter = new ArrayAdapter<CreditCards.DummyItem>(getActivity(),
+                android.R.layout.simple_list_item_1, android.R.id.text1, CreditCards.ITEMS);
     }
 
     @Override
@@ -84,7 +82,7 @@ public class CreditCardFragment extends Fragment implements AbsListView.OnItemCl
         if (null != mListener) {
             // Notify the active callbacks interface (the activity, if the
             // fragment is attached to one) that an item has been selected.
-            mListener.onAccountItemInteraction(CheckingAccounts.ITEMS.get(position).id);
+            mListener.onAccountItemInteraction(CreditCards.ITEMS.get(position).id);
         }
     }
 

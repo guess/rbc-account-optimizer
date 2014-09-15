@@ -6,4 +6,5 @@ package ca.anigma.android.rbc.app;
 public interface OnAccountInteractionListener {
     public void onAccountItemInteraction(int id);
     public void onAccountAccountSelected(int id);
+    public void onAccountValueChanged(double value);
 }

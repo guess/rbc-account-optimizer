@@ -11,7 +11,11 @@ import android.util.Log;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
+import android.widget.TextView;
 import android.widget.Toast;
+import ca.anigma.android.rbc.algorithms.CheckingAccount;
+import ca.anigma.android.rbc.algorithms.CreditCard;
+import ca.anigma.android.rbc.algorithms.SavingAccount;
 
 
 public class MainActivity extends FragmentActivity implements OnAccountInteractionListener {
@@ -21,6 +25,13 @@ public class MainActivity extends FragmentActivity implements OnAccountInteracti
     public static final int SAVING          = 1;
     public static final int CREDIT          = 2;
 
+    // Initial bank accounts
+    private int mCurChequing    = CheckingAccount.DAY_TO_DAY;
+    private int mCurSaving      = SavingAccount.DAY_TO_DAY;
+    private int mCurCredit      = CreditCard.CASH_BACK;
+
+    private int mCurTab = CHECKING;
+
     ViewPager mViewPager;
     AccountAdapter mAdapter;
 
@@ -29,8 +40,14 @@ public class MainActivity extends FragmentActivity implements OnAccountInteracti
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_main);
 
+        MoneyAllocationFragment fragment = MoneyAllocationFragment.newInstance(
+                mCurChequing,
+                mCurSaving,
+                mCurCredit
+        );
+
         getSupportFragmentManager().beginTransaction()
-                .replace(R.id.pie_chart, new MoneyAllocationFragment())
+                .replace(R.id.pie_chart, fragment)
                 .commit();
 
         mAdapter = new AccountAdapter(getSupportFragmentManager());
@@ -105,12 +122,15 @@ public class MainActivity extends FragmentActivity implements OnAccountInteracti
         Log.d(TAG, "onTabSelected called");
         switch (v.getId()) {
             case R.id.tab_cheque:
+                mCurTab = CHECKING;
                 mViewPager.setCurrentItem(CHECKING, true);
                 break;
             case R.id.tab_save:
+                mCurTab = SAVING;
                 mViewPager.setCurrentItem(SAVING, true);
                 break;
             case R.id.tab_credit:
+                mCurTab = CREDIT;
                 mViewPager.setCurrentItem(CREDIT, true);
                 break;
         }
@@ -118,12 +138,39 @@ public class MainActivity extends FragmentActivity implements OnAccountInteracti
 
     @Override
     public void onAccountItemInteraction(int id) {
-        Toast.makeText(this, id + " selected", Toast.LENGTH_SHORT).show();
+        switch (mCurTab) {
+            case CHECKING:
+                mCurChequing = id;
+                break;
+            case SAVING:
+                mCurSaving = id;
+                break;
+            case CREDIT:
+                mCurCredit = id;
+                break;
+            default:
+                return;
+        }
+
+        MoneyAllocationFragment fragment = MoneyAllocationFragment.newInstance(
+                mCurChequing,
+                mCurSaving,
+                mCurCredit
+        );
+
+        getSupportFragmentManager().beginTransaction()
+                .replace(R.id.pie_chart, fragment)
+                .commit();
     }
 
     @Override
     public void onAccountAccountSelected(int id) {
         mViewPager.setCurrentItem(id, true);
+    }
+
+    @Override
+    public void onAccountValueChanged(double value) {
+        ((TextView) findViewById(R.id.net_worth)).setText("Net worth: " + (int) value);
     }
 
 
